@@ -1,3 +1,6 @@
+package esestatistiche;
+
+
 import java.util.Random;
 
 public class thEstrai extends Thread {
