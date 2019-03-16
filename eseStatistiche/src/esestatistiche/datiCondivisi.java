@@ -6,34 +6,55 @@ import java.util.concurrent.Semaphore;
 public class datiCondivisi {
 
     private static final int LUNGHEZZA_BUFFER = 10;
-    private static final int PERC_SPAZI=10;
-    private static final int PERC_PUNTI=10;
+    private static final int PERC_SPAZI = 10;
+    private static final int PERC_PUNTI = 10;
 
-    private char[] buffer;
+    private final char[] buffer;
 
     private int numSpaziInseriti, numPuntiInseriti;
     private int numSpaziLetti, numPuntiLetti;
-    private final int numCaratteri;
+    private int numCaratteriDaGenerare;
+    private int numCaratteriDaLeggere;
+    private boolean estrazioneTerminata;
 
-    private Semaphore lettoBuffer1, lettoBuffer2;
-    private Semaphore scrittoBuffer1, scrittoBuffer2;
+    private final Semaphore lettoBufferPunti, lettoBufferSpazi;
+    private final Semaphore scrittoBufferPunti, scrittoBufferSpazi;
+    private final Semaphore visuallizzareSem;
 
-    public datiCondivisi(int numCaratteri) {
+    public datiCondivisi(int numCaratteriDaGenerare) {
         buffer = new char[LUNGHEZZA_BUFFER];
-        this.numCaratteri = numCaratteri;
-        lettoBuffer1=new Semaphore(1);
-        lettoBuffer2=new Semaphore(1);
-        scrittoBuffer1=new Semaphore(0);
-        scrittoBuffer2=new Semaphore(0);
-
+        this.numCaratteriDaGenerare = numCaratteriDaGenerare;
+        numCaratteriDaLeggere = 0;
+        lettoBufferPunti = new Semaphore(1);
+        lettoBufferSpazi = new Semaphore(1);
+        scrittoBufferPunti = new Semaphore(0);
+        scrittoBufferSpazi = new Semaphore(0);
+        visuallizzareSem = new Semaphore(0);
+        estrazioneTerminata = false;
     }
 
-    public synchronized int getNumCaratteri() {
-        return numCaratteri;
+    public synchronized int getNumCaratteriDaGenerare() {
+        return numCaratteriDaGenerare;
     }
 
-    public synchronized char[] getBuffer() {
-        return buffer;
+    public int getLunghezzaBuffer() {
+        return LUNGHEZZA_BUFFER;
+    }
+
+    public boolean isEstrazioneTerminata() {
+        return estrazioneTerminata;
+    }
+
+    public void setEstrazioneTerminata(boolean estrazioneTerminata) {
+        this.estrazioneTerminata = estrazioneTerminata;
+    }
+
+    public int getNumCaratteriDaLeggere() {
+        return numCaratteriDaLeggere;
+    }
+
+    public void setNumCaratteriDaLeggere(int numCaratteriDaLeggere) {
+        this.numCaratteriDaLeggere = numCaratteriDaLeggere;
     }
 
     public synchronized int getNumSpaziInseriti() {
@@ -68,20 +89,24 @@ public class datiCondivisi {
         this.numPuntiLetti++;
     }
 
-    public synchronized Semaphore getLettoBuffer1() {
-        return lettoBuffer1;
+    public synchronized Semaphore getLettoBufferPunti() {
+        return lettoBufferPunti;
     }
 
-    public synchronized Semaphore getLettoBuffer2() {
-        return lettoBuffer2;
+    public synchronized Semaphore getLettoBufferSpazi() {
+        return lettoBufferSpazi;
     }
 
-    public synchronized Semaphore getScrittoBuffer1() {
-        return scrittoBuffer1;
+    public synchronized Semaphore getScrittoBufferPunti() {
+        return scrittoBufferPunti;
     }
 
-    public synchronized Semaphore getScrittoBuffer2() {
-        return scrittoBuffer2;
+    public synchronized Semaphore getScrittoBufferSpazi() {
+        return scrittoBufferSpazi;
+    }
+
+    public synchronized Semaphore getVisuallizzareSem() {
+        return visuallizzareSem;
     }
 
     public synchronized int getPercSpazi() {
@@ -91,4 +116,13 @@ public class datiCondivisi {
     public synchronized int getPercPunti() {
         return PERC_PUNTI;
     }
+
+    public synchronized void setBufferAt(int index, char val) {
+        buffer[index] = val;
+    }
+
+    public synchronized char getBufferAt(int index) {
+        return buffer[index];
+    }
+
 }

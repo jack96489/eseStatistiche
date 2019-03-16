@@ -14,31 +14,38 @@ public class thEstrai extends Thread {
     @Override
     public void run() {
         Random rn = new Random();
-        //try {
-        double cicli = Math.ceil(ptrDati.getNumCaratteri() / 10.0);
-        for (int i = 0; i < cicli; i++) {
-            int daLeggere = Math.min(ptrDati.getNumCaratteri() - (i * 10), 10);
-            //ptrDati.getLettoBuffer1().acquire();
-            //ptrDati.getLettoBuffer2().acquire();
-            for (int j = 0; j < daLeggere; j++) {
-                int val = rn.nextInt(100);
-                char valore;
-                if (val < ptrDati.getPercPunti())
-                    valore = '.';
-                else if (val < ptrDati.getPercSpazi() + ptrDati.getPercPunti())
-                    valore = ' ';
-                else
-                    valore = (char) (rn.nextInt(25) + 65);
+        final int BUFFER_SIZE = ptrDati.getLunghezzaBuffer();
+        try {
+            int daGenerare = ptrDati.getNumCaratteriDaGenerare();
+            while (daGenerare > 0) {
+                int daEstrarre = Math.min(daGenerare, BUFFER_SIZE);
+                ptrDati.getLettoBufferPunti().acquire();
+                ptrDati.getLettoBufferSpazi().acquire();
+                for (int j = 0; j < daEstrarre; j++) {
+                    int val = rn.nextInt(100);
+                    char valore;
+                    if (val < ptrDati.getPercPunti())
+                        valore = '.';
+                    else if (val < ptrDati.getPercSpazi() + ptrDati.getPercPunti())
+                        valore = ' ';
+                    else
+                        valore = (char) (rn.nextInt(25) + 65);
 
-                ptrDati.getBuffer()[j] = valore;
-                System.out.println(valore);
+                    ptrDati.setBufferAt(j, valore);
+                    ptrDati.getVisuallizzareSem().release();    //faccio partire il thread visualizza
+
+
+                    System.out.println(valore);
+                }
+                ptrDati.setNumCaratteriDaLeggere(daEstrarre);
+                ptrDati.getScrittoBufferPunti().release();  //faccio partire i thread cerca
+                ptrDati.getScrittoBufferSpazi().release();
+
+                daGenerare -= BUFFER_SIZE;
             }
-            ptrDati.getScrittoBuffer1().release();
-            ptrDati.getScrittoBuffer2().release();
+            ptrDati.setEstrazioneTerminata(true);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
     }
 }

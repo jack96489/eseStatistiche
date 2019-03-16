@@ -1,4 +1,4 @@
 package esestatistiche;
 
-public class thVisualizza {
+public class thVisualizza extends Thread{
 }
