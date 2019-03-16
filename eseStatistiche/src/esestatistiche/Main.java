@@ -14,6 +14,8 @@ public class Main {
 
         thEstrai th = new thEstrai(dc);
         thCerca thPunto =new thCerca(dc,'.'),thSpazio =new thCerca(dc,' ');
+        thVisualizza thvis = new thVisualizza(dc);
+        thvis.start();
         th.start();
         thPunto.start();
         thSpazio.start();

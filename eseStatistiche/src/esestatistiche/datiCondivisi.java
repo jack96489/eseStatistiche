@@ -9,17 +9,17 @@ public class datiCondivisi {
     private static final int PERC_SPAZI = 10;
     private static final int PERC_PUNTI = 10;
 
-    private final char[] buffer;
+    private char[] buffer;
 
     private int numSpaziInseriti, numPuntiInseriti;
     private int numSpaziLetti, numPuntiLetti;
-    private int numCaratteriDaGenerare;
+    private final int numCaratteriDaGenerare;
     private int numCaratteriDaLeggere;
     private boolean estrazioneTerminata;
 
     private final Semaphore lettoBufferPunti, lettoBufferSpazi;
     private final Semaphore scrittoBufferPunti, scrittoBufferSpazi;
-    private final Semaphore visuallizzareSem;
+    private final Semaphore visuallizzareSem, visualizzatoSem;
 
     public datiCondivisi(int numCaratteriDaGenerare) {
         buffer = new char[LUNGHEZZA_BUFFER];
@@ -30,6 +30,7 @@ public class datiCondivisi {
         scrittoBufferPunti = new Semaphore(0);
         scrittoBufferSpazi = new Semaphore(0);
         visuallizzareSem = new Semaphore(0);
+        visualizzatoSem = new Semaphore(1);
         estrazioneTerminata = false;
     }
 
@@ -37,23 +38,23 @@ public class datiCondivisi {
         return numCaratteriDaGenerare;
     }
 
-    public int getLunghezzaBuffer() {
+    public synchronized int getLunghezzaBuffer() {
         return LUNGHEZZA_BUFFER;
     }
 
-    public boolean isEstrazioneTerminata() {
+    public synchronized boolean isEstrazioneTerminata() {
         return estrazioneTerminata;
     }
 
-    public void setEstrazioneTerminata(boolean estrazioneTerminata) {
+    public synchronized void setEstrazioneTerminata(boolean estrazioneTerminata) {
         this.estrazioneTerminata = estrazioneTerminata;
     }
 
-    public int getNumCaratteriDaLeggere() {
+    public synchronized int getNumCaratteriDaLeggere() {
         return numCaratteriDaLeggere;
     }
 
-    public void setNumCaratteriDaLeggere(int numCaratteriDaLeggere) {
+    public synchronized void setNumCaratteriDaLeggere(int numCaratteriDaLeggere) {
         this.numCaratteriDaLeggere = numCaratteriDaLeggere;
     }
 
@@ -109,6 +110,10 @@ public class datiCondivisi {
         return visuallizzareSem;
     }
 
+    public synchronized Semaphore getVisualizzatoSem() {
+        return visualizzatoSem;
+    }
+
     public synchronized int getPercSpazi() {
         return PERC_SPAZI;
     }
@@ -123,6 +128,20 @@ public class datiCondivisi {
 
     public synchronized char getBufferAt(int index) {
         return buffer[index];
+    }
+
+    /**
+     * ritorna il {@link #buffer} solo per la visualizzazione perchè NON garantisce la mutua esclusione (neanche con il synchronized)
+     * per garantire la mutua esclusione ci sono i metodi {@link #getBufferAt(int)} e {@link #setBufferAt(int, char)}
+     *
+     * @return buffer
+     */
+    public char[] getBuffer() {
+        return buffer;
+    }
+
+    public synchronized void resetBuffer() {
+        buffer = new char[LUNGHEZZA_BUFFER];
     }
 
 }

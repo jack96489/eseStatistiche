@@ -23,13 +23,14 @@ public class thCerca extends Thread {
                     char valore = ptrDati.getBufferAt(i);
 
                     if (valore == daCercare) {
+                        ptrDati.getVisualizzatoSem().acquire();
                         if (valore == '.')
                             ptrDati.incNumPuntiLetti();
                         else if (valore == ' ')
                             ptrDati.incNumSpaziLetti();
                         ptrDati.getVisuallizzareSem().release();
                     }
-                    System.out.println("Thread: " + daCercare + "\ttrovato: " + valore);
+                    //System.out.println("Thread: " + daCercare + "\ttrovato: " + valore);
                 }
                 if (daCercare == '.')
                     ptrDati.getLettoBufferPunti().release();
