@@ -30,20 +30,20 @@ public class thEstrai extends Thread {
                         valore = '.';
                         ptrDati.getVisualizzatoSem().acquire();
                         ptrDati.incNumPuntiInseriti();
-                        System.out.println("[DEBUG][ThEstrai]:\tStampo...");
+//                        System.out.println("[DEBUG][ThEstrai]:\tStampo...");
                         ptrDati.getVisuallizzareSem().release();    //faccio partire il thread visualizza
                     } else if (val < ptrDati.getPercSpazi() + ptrDati.getPercPunti()) {
                         valore = ' ';
                         ptrDati.getVisualizzatoSem().acquire();
                         ptrDati.incNumSpaziInseriti();
-                        System.out.println("[DEBUG][ThEstrai]:\tStampo...");
+//                        System.out.println("[DEBUG][ThEstrai]:\tStampo...");
                         ptrDati.getVisuallizzareSem().release();    //faccio partire il thread visualizza
                     } else
                         valore = (char) (rn.nextInt(25) + 65);
 
                     ptrDati.getVisualizzatoSem().acquire();
-                    System.out.println("[DEBUG][ThEstrai]:\tEstratto:\t"+valore);
-                    System.out.println("[DEBUG][ThEstrai]:\tStampo...");
+//                    System.out.println("[DEBUG][ThEstrai]:\tEstratto:\t"+valore);
+//                    System.out.println("[DEBUG][ThEstrai]:\tStampo...");
                     ptrDati.setBufferAt(j, valore);
                     ptrDati.getVisuallizzareSem().release();    //faccio partire il thread visualizza
 

@@ -17,7 +17,7 @@ public class thVisualizza extends Thread {
 
                 ptrDati.getVisualizzatoSem().release();
 
-                System.out.println("[DEBUG] [ThVisualizza]:\tAspetto qualcosa da stampare...");
+//                System.out.println("[DEBUG] [ThVisualizza]:\tAspetto qualcosa da stampare...");
                 ptrDati.getVisuallizzareSem().acquire();
 
                 System.out.println("Buffer:\t" + Arrays.toString(ptrDati.getBuffer()));
@@ -28,7 +28,7 @@ public class thVisualizza extends Thread {
                 System.out.println("_____________________________________________");
                 clearConsole();
 
-                System.out.println("[DEBUG] [ThVisualizza]:\tFine stampa...");
+//                System.out.println("[DEBUG] [ThVisualizza]:\tFine stampa...");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -28,10 +28,10 @@ public class thCerca extends Thread {
                             ptrDati.incNumPuntiLetti();
                         else if (valore == ' ')
                             ptrDati.incNumSpaziLetti();
-                        System.out.println("[DEBUG][ThCerca]:\tStampo...");
+//                        System.out.println("[DEBUG][ThCerca]:\tStampo...");
                         ptrDati.getVisuallizzareSem().release();
                     }
-                    System.out.println("[DEBUG][ThCerca]:\tThread " + daCercare + ":\ttrovato: " + valore);
+//                    System.out.println("[DEBUG][ThCerca]:\tThread " + daCercare + ":\ttrovato: " + valore);
                 }
                 if (daCercare == '.')
                     ptrDati.getLettoBufferPunti().release();
