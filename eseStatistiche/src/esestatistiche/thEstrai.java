@@ -55,6 +55,7 @@ public class thEstrai extends Thread {
                 daGenerare -= BUFFER_SIZE;
             }
             ptrDati.setEstrazioneTerminata(true);
+            ptrDati.getJoinSemaphore().release();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

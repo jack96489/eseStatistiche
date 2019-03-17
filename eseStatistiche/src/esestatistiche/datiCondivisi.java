@@ -20,6 +20,7 @@ public class datiCondivisi {
     private final Semaphore lettoBufferPunti, lettoBufferSpazi;
     private final Semaphore scrittoBufferPunti, scrittoBufferSpazi;
     private final Semaphore visuallizzareSem, visualizzatoSem;
+    private final Semaphore joinSemaphore;
 
     public datiCondivisi(int numCaratteriDaGenerare) {
         buffer = new char[LUNGHEZZA_BUFFER];
@@ -31,6 +32,7 @@ public class datiCondivisi {
         scrittoBufferSpazi = new Semaphore(0);
         visuallizzareSem = new Semaphore(0);
         visualizzatoSem = new Semaphore(0);
+        joinSemaphore = new Semaphore(0);
         terminato = new boolean[]{false, false, false};
     }
 
@@ -121,6 +123,10 @@ public class datiCondivisi {
 
     public synchronized Semaphore getVisualizzatoSem() {
         return visualizzatoSem;
+    }
+
+    public synchronized Semaphore getJoinSemaphore() {
+        return joinSemaphore;
     }
 
     public synchronized int getPercSpazi() {

@@ -30,6 +30,7 @@ public class thVisualizza extends Thread {
 
 //                System.out.println("[DEBUG] [ThVisualizza]:\tFine stampa...");
             }
+            ptrDati.getJoinSemaphore().release();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

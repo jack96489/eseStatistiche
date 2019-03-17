@@ -8,22 +8,34 @@ public class Main {
     private static final Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) {
-        int caratteri = 0;
-        caratteri = scan.nextInt();
-        datiCondivisi dc = new datiCondivisi(caratteri);
+        System.out.print("Inserisci il numero di caratteri da estrarre: ");
+        int caratteri = scan.nextInt();
+        while (caratteri < 1) {
+            System.err.println("Inserisci un numero maggiore di 0!!");
+            caratteri = scan.nextInt();
+        }
 
-        thEstrai th = new thEstrai(dc);
-        thCerca thPunto =new thCerca(dc,'.'),thSpazio =new thCerca(dc,' ');
-        thVisualizza thvis = new thVisualizza(dc);
+        final datiCondivisi dc = new datiCondivisi(caratteri);
+
+        final thEstrai thEstrai = new thEstrai(dc);
+        final thCerca thPunto = new thCerca(dc, '.'), thSpazio = new thCerca(dc, ' ');
+        final thVisualizza thvis = new thVisualizza(dc);
         thvis.start();
+        thEstrai.start();
         thPunto.start();
         thSpazio.start();
-        th.start();
+
         try {
-            th.join();
+            dc.getJoinSemaphore().acquire(4);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        if(dc.getNumPuntiInseriti()==dc.getNumPuntiLetti()&&dc.getNumSpaziInseriti()==dc.getNumSpaziLetti())
+            System.out.println("Estrazione avvenuta correttamente");
+        else
+            System.err.println("C'è stato un errore!");
+
     }
 
 }

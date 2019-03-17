@@ -42,6 +42,7 @@ public class thCerca extends Thread {
                 ptrDati.setRicercaTerminata(true, true);
             else
                 ptrDati.setRicercaTerminata(true, false);
+            ptrDati.getJoinSemaphore().release();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
