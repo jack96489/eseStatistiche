@@ -16,9 +16,14 @@ public class Main {
         thCerca thPunto =new thCerca(dc,'.'),thSpazio =new thCerca(dc,' ');
         thVisualizza thvis = new thVisualizza(dc);
         thvis.start();
-        th.start();
         thPunto.start();
         thSpazio.start();
+        th.start();
+        try {
+            th.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

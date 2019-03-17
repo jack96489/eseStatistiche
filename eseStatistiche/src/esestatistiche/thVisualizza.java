@@ -13,18 +13,22 @@ public class thVisualizza extends Thread {
     @Override
     public void run() {
         try {
-            while (!ptrDati.isEstrazioneTerminata()) {
+            while (!ptrDati.isRicercaTerminata()) {
+
+                ptrDati.getVisualizzatoSem().release();
+
+                System.out.println("[DEBUG] [ThVisualizza]:\tAspetto qualcosa da stampare...");
                 ptrDati.getVisuallizzareSem().acquire();
 
                 System.out.println("Buffer:\t" + Arrays.toString(ptrDati.getBuffer()));
-                System.out.println("Numero di spazi insiriti:\t"+ptrDati.getNumSpaziInseriti());
-                System.out.println("Numero di spazi letti:\t"+ptrDati.getNumSpaziLetti());
-                System.out.println("Numero di punti inseriti:\t"+ptrDati.getNumPuntiInseriti());
-                System.out.println("Numero di punti letti:\t"+ptrDati.getNumPuntiLetti());
+                System.out.println("Numero di spazi insiriti:\t" + ptrDati.getNumSpaziInseriti());
+                System.out.println("Numero di spazi letti:\t" + ptrDati.getNumSpaziLetti());
+                System.out.println("Numero di punti inseriti:\t" + ptrDati.getNumPuntiInseriti());
+                System.out.println("Numero di punti letti:\t" + ptrDati.getNumPuntiLetti());
                 System.out.println("_____________________________________________");
                 clearConsole();
 
-                ptrDati.getVisualizzatoSem().release();
+                System.out.println("[DEBUG] [ThVisualizza]:\tFine stampa...");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

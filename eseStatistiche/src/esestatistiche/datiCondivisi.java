@@ -15,7 +15,7 @@ public class datiCondivisi {
     private int numSpaziLetti, numPuntiLetti;
     private final int numCaratteriDaGenerare;
     private int numCaratteriDaLeggere;
-    private boolean estrazioneTerminata;
+    private boolean[] terminato;
 
     private final Semaphore lettoBufferPunti, lettoBufferSpazi;
     private final Semaphore scrittoBufferPunti, scrittoBufferSpazi;
@@ -30,8 +30,8 @@ public class datiCondivisi {
         scrittoBufferPunti = new Semaphore(0);
         scrittoBufferSpazi = new Semaphore(0);
         visuallizzareSem = new Semaphore(0);
-        visualizzatoSem = new Semaphore(1);
-        estrazioneTerminata = false;
+        visualizzatoSem = new Semaphore(0);
+        terminato = new boolean[]{false, false, false};
     }
 
     public synchronized int getNumCaratteriDaGenerare() {
@@ -43,11 +43,20 @@ public class datiCondivisi {
     }
 
     public synchronized boolean isEstrazioneTerminata() {
-        return estrazioneTerminata;
+        return terminato[0];
     }
 
     public synchronized void setEstrazioneTerminata(boolean estrazioneTerminata) {
-        this.estrazioneTerminata = estrazioneTerminata;
+        this.terminato[0] = estrazioneTerminata;
+    }
+
+    public synchronized boolean isRicercaTerminata() {
+        return terminato[1] && terminato[2];
+    }
+
+    public synchronized void setRicercaTerminata(boolean val, boolean index) {
+        int pos = index ? 1 : 2;
+        terminato[pos] = val;
     }
 
     public synchronized int getNumCaratteriDaLeggere() {
