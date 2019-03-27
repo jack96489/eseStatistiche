@@ -1,6 +1,7 @@
 package esestatistiche;
 
 
+import java.util.Arrays;
 import java.util.concurrent.Semaphore;
 
 public class datiCondivisi {
@@ -159,4 +160,12 @@ public class datiCondivisi {
         buffer = new char[LUNGHEZZA_BUFFER];
     }
 
+    public synchronized void visualizza(){
+        System.out.println("Buffer:\t" + Arrays.toString(buffer));
+        System.out.println("Numero di spazi insiriti:\t" + numSpaziInseriti);
+        System.out.println("Numero di spazi letti:\t" + numSpaziLetti);
+        System.out.println("Numero di punti inseriti:\t" + numPuntiInseriti);
+        System.out.println("Numero di punti letti:\t" + numPuntiLetti);
+        System.out.println("_____________________________________________");
+    }
 }
